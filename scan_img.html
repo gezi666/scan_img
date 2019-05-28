@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>图片预览</title>
+</head>
+<style>
+  body{
+    text-align: center;
+  }
+  #read-file{
+    margin-top: 40px;
+  }
+  .label{
+    margin: 20px auto;
+    text-align: center;
+  }
+  .scan-img{
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 5px;
+    object-fit: contain;
+  }
+</style>
+
+<body>
+  
+  <input type="file" id="read-file">
+
+  <p class="label">方法一：利用URL.createObjectURL实现预览</p>
+  <img id="scan1" class="scan-img" src="./funny-cat.jpg" alt="图片预览">
+
+  <p class="label">方法二：利用new FileReader().readAsDataURL实现预览</p>
+  <img id="scan2" class="scan-img" src="./funny-cat.jpg" alt="图片预览">
+
+  <p class="tip">注意：以上两种图片预览方法兼容到IE10+；IE9不支持客户端预览，需要先上传到服务端，等待返回图片服务地址，再实现图片预览。</p>
+
+</body>
+
+<script>
+  
+  var fDom =  document.getElementById("read-file")
+  var scan1 =  document.getElementById("scan1")
+  var scan2 =  document.getElementById("scan2")
+  var fr = new FileReader()
+
+  fDom.onchange = function(){
+    var file = fDom.files[0]
+
+    // 方法一：利用URL.createObjectURL实现预览
+    scan1.src = URL.createObjectURL(file)
+
+    // 方法二：利用new FileReader().readAsDataURL实现预览
+    fr.readAsDataURL(file)
+    fr.onload = function(e){
+      scan2.src = e.target.result
+    }
+  }
+  
+</script>
+</html>
